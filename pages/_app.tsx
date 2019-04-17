@@ -1,5 +1,6 @@
 import * as React from "react";
 import App, { Container } from "next/app";
+import { ScreenClassProvider } from "react-grid-system";
 import Layout from "../components/layout";
 
 export interface MyAppProps {}
@@ -9,9 +10,11 @@ export default class MyApp extends App<MyAppProps, any> {
     const { Component } = this.props;
     return (
       <Container>
-        <Layout>
-          <Component />
-        </Layout>
+        <ScreenClassProvider>
+          <Layout>
+            <Component />
+          </Layout>
+        </ScreenClassProvider>
       </Container>
     );
   }
