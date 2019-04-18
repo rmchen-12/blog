@@ -1,4 +1,9 @@
 const withTypescript = require("@zeit/next-typescript");
-const withLess = require("@zeit/next-less");
+const withCss = require("@zeit/next-css");
 
-module.exports = withTypescript(withLess({}));
+// fix: prevents error when .css files are required by node
+if (typeof require !== "undefined") {
+  require.extensions[".css"] = file => {};
+}
+
+module.exports = withTypescript(withCss({}));

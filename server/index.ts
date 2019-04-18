@@ -1,4 +1,4 @@
-import * as next from "next";
+import next from "next";
 import express from "express";
 import session from "express-session";
 import { config } from "dotenv";
@@ -49,12 +49,18 @@ app.prepare().then(() => {
     app.render(req, res, "/home");
   });
 
+  server.get("/admin", (req, res) => {
+    app.render(req, res, "/admin/tag");
+  });
+
   server.get("*", (req, res) => {
     return handle(req, res);
   });
 
   server.listen(port, (err: any) => {
     if (err) throw err;
-    console.log(`> Ready on http://localhost:${port}`);
+    logger.info(
+      `> Ready on http://localhost:${port} in ${process.env.NODE_ENV} mode`
+    );
   });
 });

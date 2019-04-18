@@ -1,10 +1,13 @@
-import * as winston from "winston";
+import winston from "winston";
+import { createLogger, format } from "winston";
+const { combine, timestamp, printf } = format;
 
-const logger = winston.createLogger({
-  format: winston.format.combine(
-    winston.format.timestamp(),
-    winston.format.json()
-  ),
+const myFormat = printf(({ level, message, timestamp }) => {
+  return `[${timestamp}] [${level}]: ${message}`;
+});
+
+const logger = createLogger({
+  format: combine(timestamp({ format: "YYYY-MM-DD hh:mm:ss" }), myFormat),
   level: "debug",
   transports: [
     new winston.transports.File({
