@@ -40,6 +40,10 @@ mongoose
 
 app.prepare().then(() => {
   const server = express();
+  const URL_MAP: { [key: string]: string } = {
+    "/admin": "admin/tag",
+    "/": "home"
+  };
 
   server.use(express.json());
   server.use(compression());
@@ -47,7 +51,7 @@ app.prepare().then(() => {
   server.use(bodyParser.urlencoded({ extended: true }));
   server.use(
     session({
-      resave: true,
+      resave: false,
       saveUninitialized: true,
       secret: SESSION_SECRET!,
       cookie: {
@@ -68,7 +72,8 @@ app.prepare().then(() => {
   renderWithCache({ server, app });
 
   server.get("*", (req, res) => {
-    return handle(req, res);
+    const url = URL_MAP[req.path];
+    url ? app.render(req, res, url) : handle(req, res);
   });
 
   server.use("/", Main);

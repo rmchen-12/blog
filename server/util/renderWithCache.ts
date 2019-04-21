@@ -1,5 +1,6 @@
 import LRUCache from "lru-cache";
 import { Request, Response } from "express";
+import { isAuthenticated } from "./passport";
 
 interface CacheRequest extends Request {
   user?: { id: number };
@@ -57,7 +58,7 @@ function routesWithCache({ server, app }: any) {
     renderAndCache(req, res, "/home");
   });
 
-  server.get("/book", (req: Request, res: Response) => {
+  server.get("/admin", isAuthenticated, (req: Request, res: Response) => {
     renderAndCache(req, res, "/admin/tag");
   });
 }

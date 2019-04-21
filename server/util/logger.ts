@@ -12,17 +12,12 @@ const logger = createLogger({
   transports: [
     new winston.transports.File({
       filename: "debug.log",
-      maxsize: 4096
+      level: "debug"
+    }),
+    new winston.transports.Console({
+      level: process.env.NODE_ENV === "production" ? "error" : "debug"
     })
   ]
 });
-
-if (process.env.NODE_ENV !== "production") {
-  logger.add(
-    new winston.transports.Console({
-      format: winston.format.simple()
-    })
-  );
-}
 
 export default logger;
