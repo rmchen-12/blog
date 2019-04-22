@@ -44,6 +44,8 @@
     "react": "^16.8.4",
     "react-dom": "^16.8.4",
     "react-grid-system": "4.4.5",
+    "remark": "10.0.1",
+    "remark-react": "5.0.1",
     "tslint": "5.16.0",
     "tslint-config-prettier": "^1.18.0",
     "tslint-react": "^4.0.0",

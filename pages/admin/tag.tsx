@@ -1,7 +1,7 @@
 import * as React from "react";
 
-export default class Tab extends React.Component<any, any> {
+export default class IApp extends React.Component<any, any> {
   public render() {
-    return <div>tab</div>;
+    return <div>3</div>;
   }
 }

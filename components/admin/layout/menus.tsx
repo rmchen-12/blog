@@ -9,13 +9,13 @@ const MENUS = [
     icon: <Icon type="user" />
   },
   {
-    name: "添加标签",
-    key: "2",
+    name: "新建文章",
+    key: "newArticle",
     icon: <Icon type="upload" />
   },
   {
-    name: "添加标签",
-    key: "3",
+    name: "文章管理",
+    key: "articleManager",
     icon: <Icon type="video-camera" />
   }
 ];
