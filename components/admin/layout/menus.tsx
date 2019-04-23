@@ -20,25 +20,33 @@ const MENUS = [
   }
 ];
 
-const Menus: React.FunctionComponent<any> = () => {
-  const onMenuClick = ({ key }: { key: string }) =>
+class Menus extends React.PureComponent<object, any> {
+  public componentDidMount() {
+    MENUS.forEach(v => {
+      Router.prefetch(`/${v.key}`);
+    });
+  }
+
+  public onMenuClick = ({ key }: { key: string }) =>
     Router.push(`/admin/${key}`);
 
-  return (
-    <Menu
-      theme="dark"
-      mode="inline"
-      defaultSelectedKeys={["tag"]}
-      onClick={onMenuClick}
-    >
-      {MENUS.map(v => (
-        <Menu.Item key={v.key}>
-          {v.icon}
-          <span>{v.name}</span>
-        </Menu.Item>
-      ))}
-    </Menu>
-  );
-};
+  public render() {
+    return (
+      <Menu
+        theme="dark"
+        mode="inline"
+        defaultSelectedKeys={["tag"]}
+        onClick={this.onMenuClick}
+      >
+        {MENUS.map(v => (
+          <Menu.Item key={v.key}>
+            {v.icon}
+            <span>{v.name}</span>
+          </Menu.Item>
+        ))}
+      </Menu>
+    );
+  }
+}
 
 export default Menus;

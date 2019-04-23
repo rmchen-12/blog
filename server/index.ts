@@ -71,13 +71,13 @@ app.prepare().then(() => {
 
   renderWithCache({ server, app });
 
+  server.use("/", Main);
+  server.use("/admin", Admin);
+
   server.get("*", (req, res) => {
     const url = URL_MAP[req.path];
     url ? app.render(req, res, url) : handle(req, res);
   });
-
-  server.use("/", Main);
-  server.use("/admin", Admin);
 
   server.listen(port, (err: any) => {
     if (err) throw err;
