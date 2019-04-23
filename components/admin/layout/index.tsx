@@ -1,7 +1,6 @@
 import * as React from "react";
-import { Layout, Icon } from "antd";
-
 import Menus from "./menus";
+import { Icon, Layout } from "antd";
 
 const { Header, Sider, Content } = Layout;
 

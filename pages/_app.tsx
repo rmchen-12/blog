@@ -1,7 +1,7 @@
 import * as React from "react";
+import AdminLayout from "../components/admin/layout";
 import App, { Container } from "next/app";
 import FrontLayout from "../components/front/layout";
-import AdminLayout from "../components/admin/layout";
 
 export default class MyApp extends App<any, any> {
   public static async getInitialProps({ Component, router, ctx }: any) {

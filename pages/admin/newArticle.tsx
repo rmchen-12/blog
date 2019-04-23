@@ -1,8 +1,10 @@
 import * as React from "react";
-import { Input, Select, Tag, Button, Modal, notification } from "antd";
+import http from "api";
 import remark from "remark";
 import renderMD from "remark-react";
-import http from "../../api";
+import { Button, Input, Modal, Select } from "antd";
+import { notice } from "components/notification";
+import _ from "lodash";
 
 interface NewArticleState {
   visible: boolean;
@@ -15,6 +17,11 @@ const TextArea = Input.TextArea;
 const Option = Select.Option;
 
 export default class NewArticle extends React.Component<any, NewArticleState> {
+  public static async getInitialProps({}) {
+    const res = await http.get("/admin/getTags");
+    return { initTags: res.data.tags };
+  }
+
   public state = {
     visible: false,
     content: "",
@@ -22,10 +29,13 @@ export default class NewArticle extends React.Component<any, NewArticleState> {
     tags: undefined
   };
 
-  //   public static async getInitialProps() {
-  //     const tags = await http.get("/admin/getTags");
-  //     return { tags };
-  //   }
+  public async componentDidMount() {
+    const { search } = window.location;
+    const id = search.split("=")[1];
+    const res = await http.post("/admin/getArticle", { id });
+    const article = _.pick(res.data.article, ["title", "content", "tags"]);
+    this.setState({ ...article });
+  }
 
   public publish = async () => {
     const { content, title, tags } = this.state;
@@ -35,15 +45,7 @@ export default class NewArticle extends React.Component<any, NewArticleState> {
       tags,
       isPublish: 1
     });
-    res.data.code === 1
-      ? notification.success({
-          message: "success",
-          description: `${res.data.message}`
-        })
-      : notification.error({
-          message: "error",
-          description: `${res.data.message}`
-        });
+    notice(res);
   };
 
   public handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -63,7 +65,8 @@ export default class NewArticle extends React.Component<any, NewArticleState> {
   public closeModal = () => this.setState({ visible: false });
 
   public render() {
-    const { tags } = this.props;
+    const { initTags } = this.props;
+
     const { visible, content } = this.state;
     return (
       <div>
@@ -88,10 +91,9 @@ export default class NewArticle extends React.Component<any, NewArticleState> {
             size="small"
             onChange={this.handleTagChange}
           >
-            <Option key="as">asd</Option>
-            <Option key="as1">asd</Option>
-            <Option key="as2">asd</Option>
-            <Option key="as3">asd</Option>
+            {initTags.map((v: any) => (
+              <Option key={v._id}>{v.tagName}</Option>
+            ))}
           </Select>
           <Button
             size="small"

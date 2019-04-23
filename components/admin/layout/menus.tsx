@@ -1,10 +1,10 @@
 import * as React from "react";
-import { Menu, Icon } from "antd";
 import Router from "next/router";
+import { Icon, Menu } from "antd";
 
 const MENUS = [
   {
-    name: "添加标签",
+    name: "标签管理",
     key: "tag",
     icon: <Icon type="user" />
   },

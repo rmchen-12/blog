@@ -1,8 +1,6 @@
 import * as React from "react";
-import { Row, Col } from "antd";
 import Link from "next/link";
-
-interface HeaderProps {}
+import { Col, Row } from "antd";
 
 const ROUTES: { [key: string]: string } = {
   home: "首页",
@@ -11,7 +9,7 @@ const ROUTES: { [key: string]: string } = {
   about: "关于"
 };
 
-const Header: React.FunctionComponent<HeaderProps> = () => {
+const Header: React.FunctionComponent = () => {
   return (
     <div>
       <Row>

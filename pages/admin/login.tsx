@@ -1,7 +1,7 @@
 import * as React from "react";
-import http from "../../api";
+import http from "api";
 import Router from "next/router";
-import { Form, Icon, Button, Input, message, Divider } from "antd";
+import { Button, Divider, Form, Icon, Input, message } from "antd";
 import { FormComponentProps } from "antd/lib/form";
 
 interface LoginState {

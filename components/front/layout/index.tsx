@@ -1,10 +1,9 @@
 import * as React from "react";
-import { Layout, Row, Col } from "antd";
-
-import AppSider from "./sider";
 import AppContent from "./content";
-import AppHeader from "./header";
 import AppFooter from "./footer";
+import AppHeader from "./header";
+import AppSider from "./sider";
+import { Col, Layout, Row } from "antd";
 
 const { Header, Footer, Content } = Layout;
 

@@ -15,6 +15,7 @@
     "ordered-imports": false,
     "no-console": [true, "warning"],
     "curly": false,
-    "no-unused-expression": false
+    "no-unused-expression": false,
+    "jsx-no-lambda": false
   }
 }
