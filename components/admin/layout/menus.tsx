@@ -9,7 +9,7 @@ const MENUS = [
     icon: <Icon type="user" />
   },
   {
-    name: "新建文章",
+    name: "编辑文章",
     key: "newArticle",
     icon: <Icon type="upload" />
   },

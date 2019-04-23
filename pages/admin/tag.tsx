@@ -16,12 +16,8 @@ export default class Tags extends React.Component<any, TagState> {
 
   public state = {
     tagName: "",
-    tags: undefined
+    tags: this.props.tags
   };
-
-  public componentDidMount() {
-    this.setState({ tags: this.props.tags });
-  }
 
   public handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({ tagName: e.target.value });
@@ -72,11 +68,12 @@ export default class Tags extends React.Component<any, TagState> {
         <Button
           type="primary"
           style={{ marginRight: 10 }}
+          size="small"
           onClick={this.createTag}
         >
           保存
         </Button>
-        <Button>取消</Button>
+        <Button size="small">取消</Button>
       </div>
     );
   }

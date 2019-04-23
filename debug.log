@@ -420,3 +420,11 @@
 [2019-04-23 06:20:35] [info]: > Ready on http://localhost:8080 in development mode
 [2019-04-23 06:21:30] [info]: 成功连接MongoDB
 [2019-04-23 06:21:32] [info]: > Ready on http://localhost:8080 in development mode
+[2019-04-23 09:28:06] [info]: 成功连接MongoDB
+[2019-04-23 09:28:10] [info]: > Ready on http://localhost:8080 in development mode
+[2019-04-23 09:35:33] [info]: 成功连接MongoDB
+[2019-04-23 09:35:36] [info]: > Ready on http://localhost:8080 in development mode
+[2019-04-23 09:57:09] [info]: 成功连接MongoDB
+[2019-04-23 09:57:12] [info]: > Ready on http://localhost:8080 in development mode
+[2019-04-23 11:20:45] [info]: MongoDB连接出错Error: connect ECONNREFUSED 127.0.0.1:27017
+[2019-04-23 11:20:48] [info]: > Ready on http://localhost:8080 in development mode

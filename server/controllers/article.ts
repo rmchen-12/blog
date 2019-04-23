@@ -83,6 +83,7 @@ export const deleteArticle = async (
     await Article.deleteOne({ _id: id });
     res.json({ message: "delete article success", code: 1 });
   } catch (err) {
+    logger.error(err);
     res.json({ message: err.message || err.toString(), code: 0 });
   }
 };

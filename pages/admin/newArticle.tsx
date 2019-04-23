@@ -37,6 +37,8 @@ export default class NewArticle extends React.Component<any, NewArticleState> {
     this.setState({ ...article });
   }
 
+  public componentDidUpdate(prevProps, prevState) {}
+
   public publish = async () => {
     const { content, title, tags } = this.state;
     const res = await http.post("/admin/addArticle", {
@@ -65,22 +67,25 @@ export default class NewArticle extends React.Component<any, NewArticleState> {
   public closeModal = () => this.setState({ visible: false });
 
   public render() {
+    const { title, content, tags, visible } = this.state;
     const { initTags } = this.props;
+    console.log(tags);
 
-    const { visible, content } = this.state;
     return (
       <div>
-        <h2>新建文章</h2>
+        <h2>编辑文章</h2>
         <div>
           <h3>标题</h3>
           <Input
             size="small"
             placeholder="请输入文章标题"
+            value={title}
             onChange={this.handleTitleChange}
           />
           <h3>正文</h3>
           <TextArea
             style={{ height: `calc(100vh - 400px)` }}
+            value={content}
             onChange={this.handleContentChange}
           />
           <h3>选择标签</h3>
@@ -89,10 +94,13 @@ export default class NewArticle extends React.Component<any, NewArticleState> {
             placeholder="请选择文章标签"
             style={{ width: 400, display: "block", marginBottom: "10px" }}
             size="small"
+            defaultValue={tags}
             onChange={this.handleTagChange}
           >
             {initTags.map((v: any) => (
-              <Option key={v._id}>{v.tagName}</Option>
+              <Option value={v.tagName} key={v._id}>
+                {v.tagName}
+              </Option>
             ))}
           </Select>
           <Button

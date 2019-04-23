@@ -4,19 +4,42 @@ import { Icon, List, Popconfirm } from "antd";
 import { notice } from "components/notification";
 import Link from "next/link";
 
-export default class Tab extends React.Component<any, any> {
+interface ArticleManageState {
+  articles: {
+    _id: number;
+    title: string;
+    content: string;
+    tags: string[];
+  };
+}
+
+export default class ArticleManage extends React.Component<
+  any,
+  ArticleManageState
+> {
   public static async getInitialProps() {
     const res = await http.get("/admin/getArticles");
     return { articles: res.data.articles };
   }
 
+  public state = {
+    articles: this.props.articles
+  };
+
+  public componentDidMount() {
+    const { articles } = this.props;
+    this.setState({ articles });
+  }
+
   public onConfirm = async (id: number) => {
-    const res = await http.post("/admin/deleteArticle", { id });
-    notice(res);
+    const deleteRes = await http.post("/admin/deleteArticle", { id });
+    const res = await http.get("/admin/getArticles");
+    this.setState({ articles: res.data.articles });
+    notice(deleteRes);
   };
 
   public render() {
-    const { articles } = this.props;
+    const { articles } = this.state;
     const IconText = ({ type, text, id }: any) =>
       type === "delete" ? (
         <Popconfirm
@@ -45,7 +68,7 @@ export default class Tab extends React.Component<any, any> {
           pageSize: 3
         }}
         dataSource={articles}
-        renderItem={(item: any) => (
+        renderItem={(item: ArticleManageState["articles"]) => (
           <List.Item
             key={item._id}
             actions={[
