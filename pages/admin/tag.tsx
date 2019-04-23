@@ -19,5 +19,8 @@ export default class Tab extends React.Component<any, any> {
         ))}
       </div>
     );
+export default class IApp extends React.Component<any, any> {
+  public render() {
+    return <div>3</div>;
   }
 }

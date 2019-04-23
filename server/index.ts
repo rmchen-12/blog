@@ -47,7 +47,7 @@ app.prepare().then(() => {
 
   server.use(express.json());
   server.use(compression());
-  server.use(bodyParser());
+  server.use(bodyParser.json());
   server.use(bodyParser.urlencoded({ extended: true }));
   server.use(
     session({
