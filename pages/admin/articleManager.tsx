@@ -18,8 +18,8 @@ interface Article {
   createdAt: string;
 }
 
-const initialState: { articles: Article[] } = {
-  articles: []
+const initialState = {
+  articles: [] as Article[]
 };
 
 type State = Readonly<typeof initialState>;

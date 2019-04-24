@@ -7,9 +7,9 @@ interface Props {
   tags: string[];
 }
 
-const initialState: { tagName: string; tags: string[] } = {
+const initialState = {
   tagName: "",
-  tags: []
+  tags: [] as string[]
 };
 
 type State = Readonly<typeof initialState>;

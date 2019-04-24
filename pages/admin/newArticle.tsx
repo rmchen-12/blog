@@ -14,7 +14,7 @@ const initialState = {
   visible: false,
   content: "",
   title: "",
-  tags: []
+  tags: [] as string[]
 };
 
 type State = Readonly<typeof initialState>;
