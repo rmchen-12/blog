@@ -3,21 +3,24 @@ import http from "api";
 import { Button, Input, Popconfirm, Tag } from "antd";
 import { notice } from "components/notification";
 
-interface TagState {
-  tagName: string;
-  tags: string[] | undefined;
+interface Props {
+  tags: string[];
 }
 
-export default class Tags extends React.Component<any, TagState> {
+const initialState: { tagName: string; tags: string[] } = {
+  tagName: "",
+  tags: []
+};
+
+type State = Readonly<typeof initialState>;
+
+export default class Tags extends React.Component<Props, State> {
   public static async getInitialProps() {
     const res = await http.get("/admin/getTags");
     return { tags: res.data.tags };
   }
 
-  public state = {
-    tagName: "",
-    tags: undefined
-  };
+  public readonly state: State = initialState;
 
   public componentDidMount() {
     this.setState({ tags: this.props.tags });
@@ -72,11 +75,12 @@ export default class Tags extends React.Component<any, TagState> {
         <Button
           type="primary"
           style={{ marginRight: 10 }}
+          size="small"
           onClick={this.createTag}
         >
           保存
         </Button>
-        <Button>取消</Button>
+        <Button size="small">取消</Button>
       </div>
     );
   }

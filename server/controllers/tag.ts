@@ -4,7 +4,7 @@ import Logger from "../util/logger";
 
 export const getTags = async (req: Request, res: Response) => {
   try {
-    const tags = await Tag.find({}).sort({ createdAt: -1 });
+    const tags = await Tag.find({}).sort({ createdAt: 1 });
     res.json({ tags, code: 1 });
   } catch (err) {
     res.json({ message: err.message || err.toString(), code: 0 });

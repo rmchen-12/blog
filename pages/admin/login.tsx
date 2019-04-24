@@ -4,14 +4,14 @@ import Router from "next/router";
 import { Button, Divider, Form, Icon, Input, message } from "antd";
 import { FormComponentProps } from "antd/lib/form";
 
-interface LoginState {
-  formType: string;
-}
+const initialState = {
+  formType: "login"
+};
 
-class Login extends React.Component<FormComponentProps, LoginState> {
-  public state = {
-    formType: "login"
-  };
+type State = Readonly<typeof initialState>;
+
+class Login extends React.Component<FormComponentProps, State> {
+  public readonly state: State = initialState;
 
   public onSubmit = (e: React.FormEvent) => {
     e.preventDefault();

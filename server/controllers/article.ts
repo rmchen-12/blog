@@ -52,7 +52,7 @@ export const getArticles = async (
   next: NextFunction
 ) => {
   try {
-    const articles = await Article.find({});
+    const articles = await Article.find({}).sort({ createdAt: -1 });
     res.json({ articles, code: 1 });
   } catch (err) {
     res.json({ message: err.message || err.toString(), code: 0 });
@@ -83,6 +83,7 @@ export const deleteArticle = async (
     await Article.deleteOne({ _id: id });
     res.json({ message: "delete article success", code: 1 });
   } catch (err) {
+    logger.error(err);
     res.json({ message: err.message || err.toString(), code: 0 });
   }
 };

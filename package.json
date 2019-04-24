@@ -37,6 +37,7 @@
     "lodash": "^4.17.11",
     "lru-cache": "^5.1.1",
     "lusca": "^1.6.1",
+    "moment": "^2.24.0",
     "mongoose": "5.5.2",
     "next": "latest",
     "passport": "^0.4.0",
