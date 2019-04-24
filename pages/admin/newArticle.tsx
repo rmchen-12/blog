@@ -68,6 +68,7 @@ export default class NewArticle extends React.Component<Props, State> {
   public render() {
     const { title, content, tags, visible } = this.state;
     const { initTags } = this.props;
+    console.log(tags);
 
     return (
       <div>

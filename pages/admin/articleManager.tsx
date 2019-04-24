@@ -40,9 +40,7 @@ export default class ArticleManage extends React.Component<Props, State> {
   public onConfirm = async (id: number) => {
     const deleteRes = await http.post("/admin/deleteArticle", { id });
     const res = await http.get("/admin/getArticles");
-    this.setState({
-      articles: res.data.articles
-    });
+    this.setState({ articles: res.data.articles });
     notice(deleteRes);
   };
 
