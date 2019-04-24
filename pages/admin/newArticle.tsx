@@ -6,6 +6,10 @@ import { Button, Input, Modal, Select } from "antd";
 import { notice } from "components/notification";
 import _ from "lodash";
 
+interface Props {
+  initTags: string[];
+}
+
 const initialState = {
   visible: false,
   content: "",
@@ -18,7 +22,7 @@ type State = Readonly<typeof initialState>;
 const TextArea = Input.TextArea;
 const Option = Select.Option;
 
-export default class NewArticle extends React.Component<object, State> {
+export default class NewArticle extends React.Component<Props, State> {
   public static async getInitialProps({}) {
     const res = await http.get("/admin/getTags");
     return { initTags: res.data.tags };
