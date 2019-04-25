@@ -23,7 +23,8 @@
     "paths": {
       "*": ["types/*"],
       "api": ["./api"],
-      "components/*": ["./components/*"]
+      "components/*": ["./components/*"],
+      "pages/*": ["./pages/*"]
     }
   },
   "exclude": [".next", "server/**/*.*"]

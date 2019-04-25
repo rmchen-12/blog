@@ -2,8 +2,20 @@ import * as React from "react";
 import AdminLayout from "../components/admin/layout";
 import App, { Container } from "next/app";
 import FrontLayout from "../components/front/layout";
+import http from "api";
 
-export default class MyApp extends App<any, any> {
+export interface Tag {
+  tagName: string;
+}
+
+interface MyAppProps {
+  Component: any;
+  pageProps: any;
+  page: "loign" | "admin" | "front";
+  tags: Tag[];
+}
+
+export default class MyApp extends App<MyAppProps, any> {
   public static async getInitialProps({ Component, router, ctx }: any) {
     let pageProps = {};
 
@@ -17,24 +29,36 @@ export default class MyApp extends App<any, any> {
       ? "admin"
       : "front";
 
-    return { pageProps, page };
+    const res = await http.get("/admin/getTags");
+
+    return {
+      pageProps,
+      page,
+      tags: res.data.tags
+    };
   }
 
-  public renderLayout = (page: string, children: React.ReactNode) => {
-    const layoutComponent: { [key: string]: any } = {
+  public renderLayout = (
+    page: MyAppProps["page"],
+    tags: MyAppProps["tags"],
+    children: React.ReactNode
+  ) => {
+    const layoutComponent: {
+      [key: string]: any;
+    } = {
       admin: <AdminLayout>{children}</AdminLayout>,
-      front: <FrontLayout>{children}</FrontLayout>,
+      front: <FrontLayout tags={tags}>{children}</FrontLayout>,
       login: children
     };
     return layoutComponent[page];
   };
 
   public render() {
-    const { Component, pageProps, page } = this.props;
+    const { Component, pageProps, page, tags } = this.props;
 
     return (
       <Container>
-        {this.renderLayout(page, <Component {...pageProps} />)}
+        {this.renderLayout(page, tags, <Component {...pageProps} />)}
       </Container>
     );
   }

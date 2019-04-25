@@ -13,6 +13,7 @@ module.exports = withTypescript(
       config.resolve.alias = {
         ...config.resolve.alias,
         components: path.join(__dirname, "./components"),
+        pages: path.join(__dirname, "./pages"),
         api: path.join(__dirname, "./api")
       };
       return config;

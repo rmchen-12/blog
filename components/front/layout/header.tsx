@@ -1,28 +1,56 @@
 import * as React from "react";
 import Link from "next/link";
 import { Col, Row } from "antd";
+import { withRouter, WithRouterProps } from "next/router";
+import { Tag } from "pages/_app";
+
+interface HeaderProps extends WithRouterProps {
+  tags: Tag[];
+}
 
 const ROUTES: { [key: string]: string } = {
-  home: "首页",
-  technology: "技术",
-  diary: "随笔",
-  about: "关于"
+  首页: "home",
+  技术: "technology",
+  随笔: "diary",
+  关于: "about"
 };
 
-const Header: React.FunctionComponent = () => {
+const Header = ({ router, tags }: HeaderProps) => {
   return (
-    <div>
-      <Row>
-        {Object.keys(ROUTES).map(v => (
-          <Col span={4} style={{ cursor: "pointer" }} key={v}>
-            <Link href={v} as={v}>
-              <a>{ROUTES[v]}</a>
+    <div style={{ backgroundColor: "#fff", padding: "0 100px" }}>
+      <div style={{ fontSize: "60px", color: "#7d7d7d", fontWeight: 600 }}>
+        RMCHEN
+      </div>
+      <Row type="flex" justify="end">
+        {tags.map((v, index) => (
+          <Col span={2} style={{ cursor: "pointer" }} key={index}>
+            <Link href={ROUTES[v.tagName]}>
+              <a
+                style={{
+                  fontSize: "20px",
+                  color: RegExp(ROUTES[v.tagName]).test(router!.pathname)
+                    ? "#4682B4"
+                    : "#7d7d7d"
+                }}
+              >
+                {v.tagName}
+              </a>
             </Link>
           </Col>
         ))}
       </Row>
+      <style>
+        {`
+          a{
+            color: #7d7d7d;
+          }
+          a:hover{
+            color: #4682B4;
+          }
+        `}
+      </style>
     </div>
   );
 };
 
-export default Header;
+export default withRouter(Header);

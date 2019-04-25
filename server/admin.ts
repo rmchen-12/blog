@@ -15,7 +15,7 @@ router.post("/deleteTag", tagController.deleteTag);
 router.post("/addArticle", articleController.addArticle);
 router.post("/updateArticle", articleController.updateArticle);
 router.post("/deleteArticle", articleController.deleteArticle);
-router.get("/getArticles", articleController.getArticles);
+router.post("/postArticles", articleController.postArticles);
 router.post("/getArticle", articleController.getArticle);
 
 export default router;

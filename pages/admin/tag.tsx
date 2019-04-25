@@ -22,6 +22,10 @@ export default class Tags extends React.Component<Props, State> {
 
   public readonly state: State = initialState;
 
+  public componentDidMount() {
+    this.setState({ tags: this.props.tags });
+  }
+
   public handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({ tagName: e.target.value });
   };

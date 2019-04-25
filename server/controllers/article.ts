@@ -46,13 +46,17 @@ export const updateArticle = async (
   }
 };
 
-export const getArticles = async (
+export const postArticles = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    const articles = await Article.find({}).sort({ createdAt: -1 });
+    const { tags } = req.body;
+    const query = tags ? { tags: { $in: tags } } : {};
+    const articles = await Article.find(query).sort({
+      createdAt: -1
+    });
     res.json({ articles, code: 1 });
   } catch (err) {
     res.json({ message: err.message || err.toString(), code: 0 });

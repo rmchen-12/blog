@@ -4,19 +4,26 @@ import AppFooter from "./footer";
 import AppHeader from "./header";
 import AppSider from "./sider";
 import { Col, Layout, Row } from "antd";
+import { Tag } from "pages/_app";
+
+interface AppLayoutProps {
+  tags: Tag[];
+}
 
 const { Header, Footer, Content } = Layout;
 
-export default class AppLayout extends React.Component<any, any> {
+export default class AppLayout extends React.Component<AppLayoutProps, any> {
   public render() {
-    const { children } = this.props;
+    const { children, tags } = this.props;
     return (
       <Layout>
-        <Header style={{ height: 50, background: "rgb(122,122,122)" }}>
-          <AppHeader />
-        </Header>
+        <AppHeader tags={tags} />
 
-        <Content style={{ minHeight: "calc(100vh - 100px)" }}>
+        <Content
+          style={{
+            minHeight: "calc(100vh - 100px)"
+          }}
+        >
           <Row>
             <Col xl={16} xxl={{ span: 12, offset: 4 }}>
               <AppContent>{children}</AppContent>
@@ -27,7 +34,12 @@ export default class AppLayout extends React.Component<any, any> {
           </Row>
         </Content>
 
-        <Footer style={{ height: 50, background: "rgb(122,122,122)" }}>
+        <Footer
+          style={{
+            height: 50,
+            background: "rgb(122,122,122)"
+          }}
+        >
           <AppFooter />
         </Footer>
       </Layout>

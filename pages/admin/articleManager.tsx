@@ -26,7 +26,7 @@ type State = Readonly<typeof initialState>;
 
 export default class ArticleManage extends React.Component<Props, State> {
   public static async getInitialProps() {
-    const res = await http.get("/admin/getArticles");
+    const res = await http.post("/admin/postArticles", {});
     return { articles: res.data.articles };
   }
 
