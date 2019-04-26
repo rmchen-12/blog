@@ -1,15 +1,20 @@
-import * as React from "react";
+import React from "react";
 import http from "api";
 import { Button, Input, Popconfirm, Tag } from "antd";
 import { notice } from "components/notification";
 
+interface Label {
+  _id: string;
+  tagName: string;
+}
+
 interface Props {
-  tags: string[];
+  tags: Label[];
 }
 
 const initialState = {
   tagName: "",
-  tags: [] as string[]
+  tags: [] as Label[]
 };
 
 type State = Readonly<typeof initialState>;
@@ -54,7 +59,7 @@ export default class Tags extends React.Component<Props, State> {
     return (
       <div>
         {tags &&
-          (tags as string[]).map((tag: any) => (
+          tags.map((tag: any) => (
             <Popconfirm
               title={"是否删除该标签"}
               onConfirm={this.onConfirm.bind(this, tag._id)}

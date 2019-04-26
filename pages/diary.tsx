@@ -1,20 +1,10 @@
-import * as React from "react";
+import React from "react";
 import http from "api";
 import ArticleCell from "components/front/articleCell";
+import { Article } from "interfaces";
 
 export interface Props {
   articles: Article[];
-}
-
-export interface Article {
-  _id: number;
-  title: string;
-  content: string;
-  tags: string[];
-  isPublish: boolean;
-  createdAt: string;
-  viewCount: number;
-  commentCount: number;
 }
 
 const initialState = {

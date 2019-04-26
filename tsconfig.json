@@ -16,6 +16,7 @@
     "preserveConstEnums": true,
     "sourceMap": true,
     "skipLibCheck": true,
+    "experimentalDecorators": true,
     "baseUrl": ".",
     "typeRoots": ["./node_modules/@types"],
     "lib": ["dom", "es2015", "es2016"],
@@ -23,8 +24,9 @@
     "paths": {
       "*": ["types/*"],
       "api": ["./api"],
+      "pages/*": ["./pages/*"],
       "components/*": ["./components/*"],
-      "pages/*": ["./pages/*"]
+      "interfaces": ["./interfaces/index.ts"]
     }
   },
   "exclude": [".next", "server/**/*.*"]

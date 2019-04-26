@@ -1,12 +1,9 @@
-import * as React from "react";
+import React from "react";
 import AdminLayout from "../components/admin/layout";
 import App, { Container } from "next/app";
 import FrontLayout from "../components/front/layout";
 import http from "api";
-
-export interface Tag {
-  tagName: string;
-}
+import { Tag } from "interfaces";
 
 interface MyAppProps {
   Component: any;

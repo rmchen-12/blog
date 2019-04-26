@@ -1,11 +1,12 @@
-import * as React from "react";
+import React from "react";
 import Link from "next/link";
 import { Col, Row } from "antd";
 import { withRouter, WithRouterProps } from "next/router";
-import { Tag } from "pages/_app";
+import { Tag } from "interfaces";
 
 interface HeaderProps extends WithRouterProps {
   tags: Tag[];
+  style: React.CSSProperties;
 }
 
 const ROUTES: { [key: string]: string } = {
@@ -15,9 +16,9 @@ const ROUTES: { [key: string]: string } = {
   关于: "about"
 };
 
-const Header = ({ router, tags }: HeaderProps) => {
+const Header = ({ router, tags, style }: HeaderProps) => {
   return (
-    <div style={{ backgroundColor: "#fff", padding: "0 100px" }}>
+    <div style={style}>
       <div style={{ fontSize: "60px", color: "#7d7d7d", fontWeight: 600 }}>
         RMCHEN
       </div>

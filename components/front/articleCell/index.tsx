@@ -1,7 +1,7 @@
-import * as React from "react";
-import { Article } from "pages/home";
+import  React from "react";
 import moment from "moment";
 import { Icon } from "antd";
+import { Article } from "interfaces";
 
 interface ArticleCellProps {
   article: Article;

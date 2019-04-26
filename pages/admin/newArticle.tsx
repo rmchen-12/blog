@@ -1,4 +1,4 @@
-import * as React from "react";
+import  React from "react";
 import http from "api";
 import remark from "remark";
 import renderMD from "remark-react";

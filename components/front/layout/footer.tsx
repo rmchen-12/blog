@@ -1,9 +1,11 @@
-import * as React from "react";
+import  React from "react";
 
-interface FooterProps {}
+interface FooterProps {
+  style: React.CSSProperties;
+}
 
-const Footer: React.FunctionComponent<FooterProps> = () => {
-  return <div>footer</div>;
+const Footer: React.FunctionComponent<FooterProps> = ({ style }) => {
+  return <div style={style}>footer</div>;
 };
 
 export default Footer;

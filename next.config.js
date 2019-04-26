@@ -12,6 +12,7 @@ module.exports = withTypescript(
     webpack(config, options) {
       config.resolve.alias = {
         ...config.resolve.alias,
+        interfaces: path.join(__dirname, "./interfaces"),
         components: path.join(__dirname, "./components"),
         pages: path.join(__dirname, "./pages"),
         api: path.join(__dirname, "./api")

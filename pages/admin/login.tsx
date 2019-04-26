@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import http from "api";
 import Router from "next/router";
 import { Button, Divider, Form, Icon, Input, message } from "antd";
@@ -11,9 +11,9 @@ const initialState = {
 type State = Readonly<typeof initialState>;
 
 class Login extends React.Component<FormComponentProps, State> {
-  public readonly state: State = initialState;
+  readonly state: State = initialState;
 
-  public onSubmit = (e: React.FormEvent) => {
+  onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const { formType } = this.state;
     this.props.form.validateFields((err, values) => {
@@ -32,15 +32,15 @@ class Login extends React.Component<FormComponentProps, State> {
     });
   };
 
-  public renderLogin = () => {
+  renderLogin = () => {
     this.setState({ formType: "login" });
   };
 
-  public renderRegister = () => {
+  renderRegister = () => {
     this.setState({ formType: "signUp" });
   };
 
-  public render() {
+  render() {
     const { getFieldDecorator } = this.props.form;
     const { formType } = this.state;
     return (
@@ -123,4 +123,4 @@ class Login extends React.Component<FormComponentProps, State> {
   }
 }
 
-export default Form.create<FormComponentProps>()(Login);
+export default Form.create<FormComponentProps>({})(Login);

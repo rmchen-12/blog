@@ -1,21 +1,13 @@
-import * as React from "react";
+import  React from "react";
 import http from "api";
 import { Icon, List, Popconfirm } from "antd";
 import { notice } from "components/notification";
 import Link from "next/link";
 import moment from "moment";
+import { Article } from "interfaces";
 
 interface Props {
   articles: Article[];
-}
-
-interface Article {
-  _id: number;
-  title: string;
-  content: string;
-  tags: string[];
-  isPublish: boolean;
-  createdAt: string;
 }
 
 const initialState = {
