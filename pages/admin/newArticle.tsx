@@ -1,13 +1,15 @@
-import  React from "react";
-import http from "api";
+import React from "react";
 import remark from "remark";
 import renderMD from "remark-react";
 import { Button, Input, Modal, Select } from "antd";
-import { notice } from "components/notification";
 import _ from "lodash";
+import { Store } from "store";
+import { inject, observer } from "mobx-react";
+import { toJS } from "mobx";
 
 interface Props {
   initTags: string[];
+  store: Store;
 }
 
 const initialState = {
@@ -22,53 +24,51 @@ type State = Readonly<typeof initialState>;
 const TextArea = Input.TextArea;
 const Option = Select.Option;
 
+@inject("store")
+@observer
 export default class NewArticle extends React.Component<Props, State> {
-  public static async getInitialProps({}) {
-    const res = await http.get("/admin/getTags");
-    return { initTags: res.data.tags };
-  }
+  readonly state: State = initialState;
 
-  public readonly state: State = initialState;
-
-  public async componentDidMount() {
-    const { search } = window.location;
-    const id = search.split("=")[1];
-    const res = await http.post("/admin/getArticle", { id });
-    const article = _.pick(res.data.article, ["title", "content", "tags"]);
+  async componentDidMount() {
+    const { articleStore } = this.props.store;
+    const id = this.getEditArticleId();
+    await articleStore.getArticles();
+    const filterArticle = toJS(articleStore.articles!).filter(
+      article => article._id === id
+    );
+    const article = _.pick(filterArticle[0], ["title", "content", "tags"]);
     this.setState({ ...article });
   }
 
-  public publish = async (type: "publish" | "save") => {
+  publish = async (type: "publish" | "save") => {
     const { content, title, tags } = this.state;
-    const res = await http.post("/admin/addArticle", {
+
+    this.props.store.articleStore.publish({
       content,
       title,
       tags,
-      isPublish: type === "publish" ? 1 : 0
+      isPublish: type === "publish" ? true : false
     });
-    notice(res);
   };
 
-  public handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({ title: e.target.value });
   };
 
-  public handleContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+  handleContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     this.setState({ content: e.target.value });
   };
 
-  public handleTagChange = (value: any) => {
+  handleTagChange = (value: any) => {
     this.setState({ tags: value });
   };
 
-  public preview = () => this.setState({ visible: true });
+  preview = () => this.setState({ visible: true });
 
-  public closeModal = () => this.setState({ visible: false });
+  closeModal = () => this.setState({ visible: false });
 
-  public render() {
+  render() {
     const { title, content, tags, visible } = this.state;
-    const { initTags } = this.props;
-    console.log(tags);
 
     return (
       <div>
@@ -96,7 +96,7 @@ export default class NewArticle extends React.Component<Props, State> {
             defaultValue={tags}
             onChange={this.handleTagChange}
           >
-            {initTags.map((v: any) => (
+            {this.props.store.tagStore.tags!.map((v: any) => (
               <Option value={v.tagName} key={v.tagName}>
                 {v.tagName}
               </Option>
@@ -150,4 +150,6 @@ export default class NewArticle extends React.Component<Props, State> {
       </div>
     );
   }
+
+  private getEditArticleId = () => window.location.search.split("=")[1];
 }

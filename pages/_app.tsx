@@ -4,12 +4,15 @@ import App, { Container } from "next/app";
 import FrontLayout from "../components/front/layout";
 import http from "api";
 import { Tag } from "interfaces";
+import { initStore, Store } from "../store";
+import { Provider } from "mobx-react";
 
 interface MyAppProps {
   Component: any;
   pageProps: any;
   page: "loign" | "admin" | "front";
   tags: Tag[];
+  initialMobxState: Store;
 }
 
 export default class MyApp extends App<MyAppProps, any> {
@@ -26,36 +29,56 @@ export default class MyApp extends App<MyAppProps, any> {
       ? "admin"
       : "front";
 
-    const res = await http.get("/admin/getTags");
+    const res = await Promise.all([
+      http.get("/admin/getTags"),
+      http.post("/admin/postArticles", {})
+    ]);
+
+    const mobxStore = initStore({
+      tags: res[0].data.tags,
+      articles: res[1].data.articles
+    });
+    ctx.mobxStore = mobxStore;
 
     return {
       pageProps,
       page,
-      tags: res.data.tags
+      initialMobxState: mobxStore
     };
+  }
+
+  private mobxStore: Store;
+
+  constructor(props: MyAppProps) {
+    super(props as any);
+    const isServer = !(process as any).browser;
+    this.mobxStore = isServer
+      ? props.initialMobxState
+      : initStore(props.initialMobxState.tagStore);
   }
 
   public renderLayout = (
     page: MyAppProps["page"],
-    tags: MyAppProps["tags"],
     children: React.ReactNode
   ) => {
     const layoutComponent: {
       [key: string]: any;
     } = {
       admin: <AdminLayout>{children}</AdminLayout>,
-      front: <FrontLayout tags={tags}>{children}</FrontLayout>,
+      front: <FrontLayout>{children}</FrontLayout>,
       login: children
     };
     return layoutComponent[page];
   };
 
   public render() {
-    const { Component, pageProps, page, tags } = this.props;
+    const { Component, pageProps, page } = this.props;
 
     return (
       <Container>
-        {this.renderLayout(page, tags, <Component {...pageProps} />)}
+        <Provider store={this.mobxStore}>
+          {this.renderLayout(page, <Component {...pageProps} />)}
+        </Provider>
       </Container>
     );
   }

@@ -1,7 +1,7 @@
 import React from "react";
-import http from "api";
 import { Button, Input, Popconfirm, Tag } from "antd";
-import { notice } from "components/notification";
+import { observer, inject } from "mobx-react";
+import { Store } from "store";
 
 interface Label {
   _id: string;
@@ -10,6 +10,7 @@ interface Label {
 
 interface Props {
   tags: Label[];
+  store: Store;
 }
 
 const initialState = {
@@ -19,42 +20,30 @@ const initialState = {
 
 type State = Readonly<typeof initialState>;
 
+@inject("store")
+@observer
 export default class Tags extends React.Component<Props, State> {
-  public static async getInitialProps() {
-    const res = await http.get("/admin/getTags");
-    return { tags: res.data.tags };
+  readonly state: State = initialState;
+
+  componentDidMount() {
+    this.props.store.tagStore.getTags();
   }
 
-  public readonly state: State = initialState;
-
-  public componentDidMount() {
-    this.setState({ tags: this.props.tags });
-  }
-
-  public handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({ tagName: e.target.value });
   };
 
-  public refreshTags = async () => {
-    const tagsRes = await http.get("/admin/getTags");
-    this.setState({ tags: tagsRes.data.tags });
+  createTag = async () => {
+    this.props.store.tagStore.createTag(this.state.tagName);
+    this.props.store.tagStore.getTags();
   };
 
-  public createTag = async () => {
-    const { tagName } = this.state;
-    const res = await http.post("/admin/createTag", { tagName });
-    notice(res);
-    this.refreshTags();
+  onConfirm = async (id: string) => {
+    this.props.store.tagStore.deleteTag(id);
   };
 
-  public onConfirm = async (id: number) => {
-    const res = await http.post("/admin/deleteTag", { id });
-    notice(res);
-    this.refreshTags();
-  };
-
-  public render() {
-    const { tags } = this.state;
+  render() {
+    const { tags } = this.props.store.tagStore;
 
     return (
       <div>

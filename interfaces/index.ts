@@ -13,3 +13,5 @@ export interface Tag {
   _id: string;
   tagName: string;
 }
+
+export type State = "pending" | "done" | "error";

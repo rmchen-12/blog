@@ -1,13 +1,14 @@
-import  React from "react";
-import http from "api";
-import { Icon, List, Popconfirm } from "antd";
-import { notice } from "components/notification";
 import Link from "next/link";
 import moment from "moment";
+import React from "react";
 import { Article } from "interfaces";
+import { Icon, List, Popconfirm } from "antd";
+import { inject, observer } from "mobx-react";
+import { Store } from "store";
 
 interface Props {
   articles: Article[];
+  store: Store;
 }
 
 const initialState = {
@@ -16,28 +17,22 @@ const initialState = {
 
 type State = Readonly<typeof initialState>;
 
+@inject("store")
+@observer
 export default class ArticleManage extends React.Component<Props, State> {
-  public static async getInitialProps() {
-    const res = await http.post("/admin/postArticles", {});
-    return { articles: res.data.articles };
+  readonly state: State = initialState;
+
+  componentDidMount() {
+    this.props.store.articleStore.getArticles();
   }
 
-  public readonly state: State = initialState;
-
-  public componentDidMount() {
-    const { articles } = this.props;
-    this.setState({ articles });
-  }
-
-  public onConfirm = async (id: number) => {
-    const deleteRes = await http.post("/admin/deleteArticle", { id });
-    const res = await http.get("/admin/getArticles");
-    this.setState({ articles: res.data.articles });
-    notice(deleteRes);
+  onConfirm = async (id: string) => {
+    this.props.store.articleStore.deleteArticle(id);
   };
 
-  public render() {
-    const { articles } = this.state;
+  render() {
+    const { articles } = this.props.store.articleStore;
+
     const IconText = ({ type, text, id }: any) => {
       const nodes: { [key: string]: any } = {
         delete: (
@@ -73,6 +68,7 @@ export default class ArticleManage extends React.Component<Props, State> {
       };
       return nodes[type];
     };
+
     return (
       <List
         itemLayout="vertical"

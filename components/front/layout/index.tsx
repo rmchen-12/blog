@@ -4,21 +4,15 @@ import AppFooter from "./footer";
 import AppHeader from "./header";
 import AppSider from "./sider";
 import { Col, Layout, Row } from "antd";
-import { Tag } from "interfaces";
-
-interface AppLayoutProps {
-  tags: Tag[];
-}
 
 const { Content } = Layout;
 
-export default class AppLayout extends React.Component<AppLayoutProps, any> {
-  public render() {
-    const { children, tags } = this.props;
+export default class AppLayout extends React.Component<object, object> {
+  render() {
+    const { children } = this.props;
     return (
       <Layout>
         <AppHeader
-          tags={tags}
           style={{
             backgroundColor: "#fff",
             padding: "0 100px",
