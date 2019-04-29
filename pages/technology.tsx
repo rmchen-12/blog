@@ -1,7 +1,8 @@
-import React from "react";
-import http from "api";
-import ArticleCell from "components/front/articleCell";
-import { Article } from "interfaces";
+import ArticleCell from 'components/front/articleCell';
+import { Article, Ctx } from 'interfaces';
+import _ from 'lodash';
+import { toJS } from 'mobx';
+import React from 'react';
 
 export interface Props {
   articles: Article[];
@@ -14,9 +15,12 @@ const initialState = {
 type State = Readonly<typeof initialState>;
 
 export default class Technology extends React.Component<Props, State> {
-  public static async getInitialProps() {
-    const res = await http.post("/admin/postArticles", { tags: ["技术"] });
-    return { articles: res.data.articles };
+  static async getInitialProps(ctx: Ctx) {
+    const filterArticles = _.filter(
+      toJS(ctx.mobxStore.articleStore.articles!),
+      v => v.tags.includes("技术")
+    );
+    return { articles: filterArticles };
   }
 
   public readonly state: State = initialState;

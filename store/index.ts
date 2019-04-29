@@ -1,7 +1,6 @@
-import ArticleStore from './articleStore';
-import TagStore from './tagStore';
-import { useStaticRendering } from 'mobx-react';
-
+import ArticleStore from "./articleStore";
+import TagStore from "./tagStore";
+import { useStaticRendering } from "mobx-react";
 
 const isServer = !(process as any).browser;
 useStaticRendering(isServer);

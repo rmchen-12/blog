@@ -1,7 +1,7 @@
-import  React from "react";
-import moment from "moment";
-import { Icon } from "antd";
-import { Article } from "interfaces";
+import { Icon } from 'antd';
+import { Article } from 'interfaces';
+import moment from 'moment';
+import React from 'react';
 
 interface ArticleCellProps {
   article: Article;
@@ -33,7 +33,7 @@ const ArticleCell: React.FunctionComponent<ArticleCellProps> = props => {
       <style>
         {`
           .wrapper {
-            width: 80%;
+            width: 100%;
             height: 200px;
             background-color: #eeeeee;
             border-radius: 10px;

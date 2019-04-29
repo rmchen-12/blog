@@ -1,3 +1,5 @@
+import { Store } from 'store';
+
 export interface Article {
   _id: string;
   title: string;
@@ -15,3 +17,7 @@ export interface Tag {
 }
 
 export type State = "pending" | "done" | "error";
+
+export interface Ctx {
+  mobxStore: Store;
+}

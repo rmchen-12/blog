@@ -1,9 +1,11 @@
-import React from "react";
-import http from "api";
-import ArticleCell from "components/front/articleCell";
-import { Article } from "interfaces";
-import { inject } from "mobx-react";
-import { Store } from "../store";
+import ArticleCell from 'components/front/articleCell';
+import { Article, Ctx } from 'interfaces';
+import _ from 'lodash';
+import { toJS } from 'mobx';
+import { inject } from 'mobx-react';
+import React from 'react';
+
+import { Store } from '../store';
 
 export interface Props {
   articles: Article[];
@@ -18,14 +20,17 @@ type State = Readonly<typeof initialState>;
 
 @inject("store")
 export default class Diary extends React.Component<Props, State> {
-  public static async getInitialProps() {
-    const res = await http.post("/admin/postArticles", { tags: ["随笔"] });
-    return { articles: res.data.articles };
+  static async getInitialProps(ctx: Ctx) {
+    const filterArticles = _.filter(
+      toJS(ctx.mobxStore.articleStore.articles!),
+      v => v.tags.includes("随笔")
+    );
+    return { articles: filterArticles };
   }
 
-  public readonly state: State = initialState;
+  readonly state: State = initialState;
 
-  public render() {
+  render() {
     const { articles } = this.props;
 
     return (

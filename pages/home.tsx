@@ -1,10 +1,14 @@
-import React from "react";
-import http from "api";
-import ArticleCell from "components/front/articleCell";
-import { Article } from "interfaces";
+import ArticleCell from 'components/front/articleCell';
+import { Article, Ctx } from 'interfaces';
+import _ from 'lodash';
+import { toJS } from 'mobx';
+import { inject, observer } from 'mobx-react';
+import React from 'react';
+import { Store } from 'store';
 
 export interface Props {
   articles: Article[];
+  store: Store;
 }
 
 const initialState = {
@@ -13,16 +17,22 @@ const initialState = {
 
 type State = Readonly<typeof initialState>;
 
+@inject("store")
+@observer
 export default class Home extends React.Component<Props, State> {
-  public static async getInitialProps() {
-    const res = await http.post("/admin/postArticles", { tags: ["首页"] });
-    return { articles: res.data.articles };
+  static async getInitialProps(ctx: Ctx) {
+    const filterArticles = _.filter(
+      toJS(ctx.mobxStore.articleStore.articles!),
+      v => v.tags.includes("首页")
+    );
+    return { articles: filterArticles };
   }
 
-  public readonly state: State = initialState;
+  readonly state: State = initialState;
 
-  public render() {
+  render() {
     const { articles } = this.props;
+
     return (
       <div>
         {articles && articles.map(v => <ArticleCell article={v} key={v._id} />)}

@@ -1,11 +1,12 @@
-import React from "react";
-import AdminLayout from "../components/admin/layout";
-import App, { Container } from "next/app";
-import FrontLayout from "../components/front/layout";
-import http from "api";
-import { Tag } from "interfaces";
-import { initStore, Store } from "../store";
-import { Provider } from "mobx-react";
+import http from 'api';
+import { Tag } from 'interfaces';
+import { Provider } from 'mobx-react';
+import App, { Container } from 'next/app';
+import React from 'react';
+
+import AdminLayout from '../components/admin/layout';
+import FrontLayout from '../components/front/layout';
+import { initStore, Store } from '../store';
 
 interface MyAppProps {
   Component: any;
@@ -16,18 +17,8 @@ interface MyAppProps {
 }
 
 export default class MyApp extends App<MyAppProps, any> {
-  public static async getInitialProps({ Component, router, ctx }: any) {
+  static async getInitialProps({ Component, router, ctx }: any) {
     let pageProps = {};
-
-    if (Component.getInitialProps) {
-      pageProps = await Component.getInitialProps(ctx);
-    }
-
-    const page = /\/admin\/login/gi.test(router.route)
-      ? "login"
-      : /\/admin/gi.test(router.route)
-      ? "admin"
-      : "front";
 
     const res = await Promise.all([
       http.get("/admin/getTags"),
@@ -39,6 +30,16 @@ export default class MyApp extends App<MyAppProps, any> {
       articles: res[1].data.articles
     });
     ctx.mobxStore = mobxStore;
+
+    if (Component.getInitialProps) {
+      pageProps = await Component.getInitialProps(ctx);
+    }
+
+    const page = /\/admin\/login/gi.test(router.route)
+      ? "login"
+      : /\/admin/gi.test(router.route)
+      ? "admin"
+      : "front";
 
     return {
       pageProps,
@@ -52,15 +53,14 @@ export default class MyApp extends App<MyAppProps, any> {
   constructor(props: MyAppProps) {
     super(props as any);
     const isServer = !(process as any).browser;
+    const { tagStore, articleStore } = props.initialMobxState;
+
     this.mobxStore = isServer
       ? props.initialMobxState
-      : initStore(props.initialMobxState.tagStore);
+      : initStore({ ...tagStore, ...articleStore });
   }
 
-  public renderLayout = (
-    page: MyAppProps["page"],
-    children: React.ReactNode
-  ) => {
+  renderLayout = (page: MyAppProps["page"], children: React.ReactNode) => {
     const layoutComponent: {
       [key: string]: any;
     } = {
@@ -71,7 +71,7 @@ export default class MyApp extends App<MyAppProps, any> {
     return layoutComponent[page];
   };
 
-  public render() {
+  render() {
     const { Component, pageProps, page } = this.props;
 
     return (
