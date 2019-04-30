@@ -1,9 +1,8 @@
-import ArticleCell from 'components/front/articleCell';
-import { Article, Ctx } from 'interfaces';
-import _ from 'lodash';
-import { toJS } from 'mobx';
-import { inject, observer } from 'mobx-react';
+import ArticleList from 'components/front/articleList';
 import React from 'react';
+import WithArticles from 'components/hoc/withArticle';
+import { Article } from 'interfaces';
+import { inject } from 'mobx-react';
 import { Store } from 'store';
 
 export interface Props {
@@ -18,25 +17,14 @@ const initialState = {
 type State = Readonly<typeof initialState>;
 
 @inject("store")
-@observer
-export default class Home extends React.Component<Props, State> {
-  static async getInitialProps(ctx: Ctx) {
-    const filterArticles = _.filter(
-      toJS(ctx.mobxStore.articleStore.articles!),
-      v => v.tags.includes("首页")
-    );
-    return { articles: filterArticles };
-  }
-
+class Home extends React.Component<Props, State> {
   readonly state: State = initialState;
 
   render() {
     const { articles } = this.props;
 
-    return (
-      <div>
-        {articles && articles.map(v => <ArticleCell article={v} key={v._id} />)}
-      </div>
-    );
+    return <ArticleList articles={articles} />;
   }
 }
+
+export default WithArticles(Home, "首页");
