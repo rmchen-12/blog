@@ -1,6 +1,7 @@
-import { Tag } from "../models/Tag";
-import { Request, Response } from "express";
-import Logger from "../util/logger";
+import { Request, Response } from 'express';
+
+import { Tag } from '../models/Tag';
+import Logger from '../util/logger';
 
 export const getTags = async (req: Request, res: Response) => {
   try {
@@ -12,12 +13,12 @@ export const getTags = async (req: Request, res: Response) => {
 };
 
 export const createTag = async (req: Request, res: Response) => {
-  const { tagName } = req.body;
+  const { tagName, url } = req.body;
   try {
     const tag = await Tag.findOne({ tagName });
     if (tag)
       return res.json({ message: `${tagName} is already exist!`, code: 0 });
-    await Tag.create({ tagName });
+    await Tag.create({ tagName: tagName.trim(), url: url.trim() });
     res.json({ message: "create tag success", code: 1 });
   } catch (err) {
     Logger.error(err);

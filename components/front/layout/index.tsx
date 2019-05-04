@@ -16,17 +16,18 @@ export default class AppLayout extends React.Component<object, object> {
         <AppHeader
           style={{
             backgroundColor: "#fff",
-            padding: "0 100px",
             height: "150px"
           }}
         />
 
-        <Content style={{ minHeight: "calc(100vh - 200px)" }}>
+        <Content
+          style={{ minHeight: "calc(100vh - 200px)", backgroundColor: "#fff" }}
+        >
           <Row>
-            <Col lg={{ span: 20, offset: 2 }} xl={{ span: 16, offset: 2 }}>
+            <Col xl={{ span: 16, offset: 2 }} lg={{ span: 16, offset: 2 }}>
               <AppContent>{children}</AppContent>
             </Col>
-            <Col lg={{ span: 0 }} xl={4}>
+            <Col xl={4} lg={4} md={0} sm={0} xs={0}>
               <AppSider />
             </Col>
           </Row>
@@ -34,8 +35,10 @@ export default class AppLayout extends React.Component<object, object> {
 
         <AppFooter
           style={{
-            height: 50,
-            backgroundColor: "#fff"
+            height: "50px",
+            backgroundColor: "#fff",
+            textAlign: "center",
+            lineHeight: "50px"
           }}
         />
       </Layout>

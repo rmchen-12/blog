@@ -27,7 +27,8 @@
       "pages/*": ["./pages/*"],
       "components/*": ["./components/*"],
       "interfaces": ["./interfaces/index.ts"],
-      "store": ["./store/index.ts"]
+      "store": ["./store/index.ts"],
+      "static/*": ["./static/*"]
     }
   },
   "exclude": [".next", "server/**/*.*"]

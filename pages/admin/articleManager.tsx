@@ -1,10 +1,10 @@
-import Link from "next/link";
-import moment from "moment";
-import React from "react";
-import { Article } from "interfaces";
-import { Icon, List, Popconfirm } from "antd";
-import { inject, observer } from "mobx-react";
-import { Store } from "store";
+import { Icon, List, Popconfirm } from 'antd';
+import dayjs from 'dayjs';
+import { Article } from 'interfaces';
+import { inject, observer } from 'mobx-react';
+import Link from 'next/link';
+import React from 'react';
+import { Store } from 'store';
 
 interface Props {
   articles: Article[];
@@ -86,7 +86,7 @@ export default class ArticleManage extends React.Component<Props, State> {
               <IconText type="edit" text="编辑" id={item._id} key="edit" />,
               <IconText
                 type="calendar"
-                text={moment(item.createdAt).format("YYYY-MM-DD hh:mm")}
+                text={dayjs(item.createdAt).format("YYYY-MM-DD hh:mm")}
                 key="calendar"
               />
             ]}

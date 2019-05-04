@@ -1,8 +1,8 @@
 import ArticleList from 'components/front/articleList';
-import React from 'react';
 import WithArticles from 'components/hoc/withArticle';
 import { Article } from 'interfaces';
 import { inject } from 'mobx-react';
+import React from 'react';
 
 export interface Props {
   articles: Article[];

@@ -1,6 +1,6 @@
 import { Icon } from 'antd';
+import dayjs from 'dayjs';
 import { Article } from 'interfaces';
-import moment from 'moment';
 import React from 'react';
 
 interface ArticleCellProps {
@@ -17,7 +17,7 @@ const ArticleCell: React.FunctionComponent<ArticleCellProps> = props => {
           <div className="content">{content}</div>
           <div className="footer">
             <div className="time">
-              {moment(createdAt).format("YYYY-MM-DD hh:mm")}
+              {dayjs(createdAt).format("YYYY-MM-DD hh:mm")}
             </div>
             <div className="viewCount">
               <Icon type="eye" style={{ marginRight: 5 }} />

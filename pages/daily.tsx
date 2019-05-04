@@ -1,10 +1,10 @@
 import ArticleList from 'components/front/articleList';
-import React from 'react';
 import WithArticles from 'components/hoc/withArticle';
 import { Article } from 'interfaces';
 import { inject } from 'mobx-react';
-import { Store } from '../store';
+import React from 'react';
 
+import { Store } from '../store';
 
 export interface Props {
   articles: Article[];
@@ -23,7 +23,6 @@ class Diary extends React.Component<Props, State> {
 
   render() {
     const { articles } = this.props;
-
     return <ArticleList articles={articles} />;
   }
 }

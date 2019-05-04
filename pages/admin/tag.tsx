@@ -1,11 +1,12 @@
-import React from "react";
-import { Button, Input, Popconfirm, Tag } from "antd";
-import { observer, inject } from "mobx-react";
-import { Store } from "store";
+import { Button, Input, Popconfirm, Tag } from 'antd';
+import { inject, observer } from 'mobx-react';
+import React from 'react';
+import { Store } from 'store';
 
 interface Label {
   _id: string;
   tagName: string;
+  url: string;
 }
 
 interface Props {
@@ -15,6 +16,7 @@ interface Props {
 
 const initialState = {
   tagName: "",
+  url: "",
   tags: [] as Label[]
 };
 
@@ -33,9 +35,16 @@ export default class Tags extends React.Component<Props, State> {
     this.setState({ tagName: e.target.value });
   };
 
+  handleUrlChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    this.setState({ url: e.target.value });
+  };
+
   createTag = async () => {
-    this.props.store.tagStore.createTag(this.state.tagName);
-    this.props.store.tagStore.getTags();
+    await this.props.store.tagStore.createTag(
+      this.state.tagName,
+      this.state.url
+    );
+    await this.props.store.tagStore.getTags();
   };
 
   onConfirm = async (id: string) => {
@@ -65,6 +74,15 @@ export default class Tags extends React.Component<Props, State> {
             margin: "10px 0"
           }}
           onChange={this.handleInputChange}
+        />
+        <Input
+          placeholder="标签URL"
+          style={{
+            width: 400,
+            display: "block",
+            margin: "10px 0"
+          }}
+          onChange={this.handleUrlChange}
         />
         <Button
           type="primary"

@@ -1,13 +1,14 @@
-import mongoose, { Document, Model, model } from "mongoose";
-import _ from "lodash";
+import mongoose, { Document, Model, model } from 'mongoose';
 
 export type TagModel = Document & {
   tagName: string;
+  url: string;
 };
 
 const tagSchema = new mongoose.Schema(
   {
-    tagName: { type: String, unique: true, required: true }
+    tagName: { type: String, unique: true, required: true },
+    url: { type: String, unique: true, required: true }
   },
   { timestamps: true }
 );

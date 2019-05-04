@@ -16,8 +16,13 @@ module.exports = withTypescript(
         components: path.join(__dirname, "./components"),
         pages: path.join(__dirname, "./pages"),
         api: path.join(__dirname, "./api"),
-        store: path.join(__dirname, "./store")
+        store: path.join(__dirname, "./store"),
+        static: path.join(__dirname, "./static")
       };
+      config.module.rules.push({
+        test: /\.svg$/,
+        use: ["@svgr/webpack"]
+      });
       return config;
     }
   })

@@ -1,17 +1,16 @@
-import { observable, flow, toJS } from "mobx";
-import { Tag, State } from "interfaces";
-import http from "api";
-import { notice } from "components/notification";
-import _ from "lodash";
+import http from 'api';
+import { notice } from 'components/notification';
+import { State, Tag } from 'interfaces';
+import { flow, observable, toJS } from 'mobx';
 
 export default class TagStore {
   @observable tags?: Tag[] = [];
   @observable state: State = "pending";
 
-  createTag = flow(function*(this: TagStore, tagName) {
+  createTag = flow(function*(this: TagStore, tagName, url) {
     this.state = "pending";
     try {
-      const res = yield http.post("/admin/createTag", { tagName });
+      const res = yield http.post("/admin/createTag", { tagName, url });
       notice(res);
       this.state = "done";
     } catch (error) {
